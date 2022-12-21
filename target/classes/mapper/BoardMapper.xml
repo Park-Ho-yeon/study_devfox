@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.board.BoardMapper">
+
+	<!-- 게시글 목록 -->
+	<select id="getList" resultType="com.study.board.dto.BoardDto">
+		select b_no, title, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
+		order by b_no desc
+	</select>
+
+	<!-- 게시글 상세보기 -->
+	<select id="getView" resultType="com.study.board.dto.BoardDto">
+		select b_no, title, content, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
+  		where b_no = #{b_no}
+	</select>
+	
+	<!-- 조회수 증가 -->
+  	<update id="hitcount">
+  		update study_tbl_board
+  		set hit = hit+1 where b_no=#{b_no}
+  	</update>
+	
+	<!-- 게시글 번호 자동생성 -->
+	<select id="getAutoNo" resultType="String">
+		select concat('B',to_char(REGEXP_REPLACE(max(b_no),'[^0-9]')+1,'FM000'))as b_no from study_tbl_board
+	</select>
+		
+	<!-- 게시글 등록 -->
+	<insert id="boardInsert" parameterType="com.study.board.dto.BoardDto">
+		insert into study_tbl_board
+		(b_no, title, content, reg_id, reg_date)
+		values (#{b_no},#{title},#{content},#{reg_id},sysdate)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="boardUpdate">
+		update study_tbl_board
+  		set title = #{title}, content = #{content}
+  		where b_no = #{b_no}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="boardDelete">
+		delete from study_tbl_board where b_no = #{b_no}
+	</delete>
+</mapper>
