@@ -70,6 +70,7 @@ public class BoardController {
 	//DB에 회원등록
 	@RequestMapping("/userReg")
 	public String userreg(String id, String pw, RedirectAttributes redirect) throws Exception{
+		
 		/*Map에 담아 service로 보냄. Map(key,value)*/
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id",id);
@@ -88,8 +89,12 @@ public class BoardController {
 	//로그아웃
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, RedirectAttributes redirect) {
+		
 		HttpSession session = request.getSession();
-		session.invalidate(); /*세선정보 지우기*/
+		
+		//세선정보 지우기
+		session.invalidate();
+		
 		redirect.addFlashAttribute("msg", "로그아웃되었습니다");
 		return "redirect:list";	
 	}
