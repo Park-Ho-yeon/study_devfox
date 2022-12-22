@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Spring 게시판 만들기</title>
     <script type="text/javascript">
+    	
+    	//유효성 체크
     	function checkForm(){
+    		
     		if(write.title.value==''){
     			alert('제목을 입력해주세요.');
     			write.title.focus();
@@ -22,10 +25,12 @@
     		}
     		return true;
     	}
+    	
     </script>
 </head>
 <body>
     <div id="wrap">
+    	
         <h2>게시판<span>수정</span></h2>
         <form name="write" action="DBupdate" method="post" onsubmit="return checkForm()">
         <div id="white_box" class="write_form">

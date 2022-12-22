@@ -2,16 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.board.BoardMapper">
 
+	<!-- 로그인 -->
+  	<select id="login" resultType="Integer">
+  		select count(*) from study_tbl_user where id = #{id} and pw = #{pw}
+  	</select>
+  	
+  	<!-- 아이디중복체크 -->
+  	<select id="checkid" resultType="String">
+  		select count(*) from study_tbl_user where id = #{id}
+  	</select>
+  	
+  	<!-- 회원등록 -->
+  	<insert id="regist" parameterType="Map">
+  		insert into study_tbl_user (id, pw) values (#{id},#{pw})
+  	</insert>
+
 	<!-- 게시글 목록 -->
 	<select id="getList" resultType="com.study.board.dto.BoardDto">
 		select b_no, title, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
 		order by b_no desc
-	</select>
-
-	<!-- 게시글 상세보기 -->
-	<select id="getView" resultType="com.study.board.dto.BoardDto">
-		select b_no, title, content, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
-  		where b_no = #{b_no}
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -20,6 +29,12 @@
   		set hit = hit+1 where b_no=#{b_no}
   	</update>
 	
+	<!-- 게시글 상세보기 -->
+	<select id="getView" resultType="com.study.board.dto.BoardDto">
+		select b_no, title, content, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
+  		where b_no = #{b_no}
+	</select>
+
 	<!-- 게시글 번호 자동생성 -->
 	<select id="getAutoNo" resultType="String">
 		select concat('B',to_char(REGEXP_REPLACE(max(b_no),'[^0-9]')+1,'FM000'))as b_no from study_tbl_board

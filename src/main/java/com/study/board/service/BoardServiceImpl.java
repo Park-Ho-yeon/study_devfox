@@ -1,5 +1,6 @@
 package com.study.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,24 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao dao;
 	
+	//로그인
+	@Override
+	public int userLogin(HashMap<String, Object> map) throws Exception {
+		return dao.userLogin(map);
+	}
+	
+	//아이디 중복 체크
+	@Override
+	public String checkid(String id) throws Exception {
+		return dao.checkid(id);
+	}
+
+	//회원등록
+	@Override
+	public int userReg(HashMap<String, Object> map) throws Exception {
+		return dao.userReg(map);
+	}
+	
 	//게시판 목록
 	@Override
 	public List<BoardDto> getList() throws Exception {
@@ -22,10 +41,15 @@ public class BoardServiceImpl implements BoardService {
 
 	//게시글 상세보기
 	@Override
-	public BoardDto getView(String b_no) throws Exception {
-		dao.setHitcount(b_no);
+	public BoardDto getView(String b_no, String vm) throws Exception {
+
+		if(vm.equals("view")) dao.setHitcount(b_no); //상세조회용이면 조회수 1 증가
+		
 		BoardDto dto = dao.getView(b_no);
-		dto.setContent(dto.getContent().replace("\r\n", "<br>"));
+				
+		if(vm.equals("view")) dto.setContent(dto.getContent().replace("\r\n", "<br>"));			
+		//상세조회용이면 <p>태그안에 들어가기에 줄바꿈 코드 <br>로 변환
+		
 		return dto;
 	}
 
@@ -37,16 +61,13 @@ public class BoardServiceImpl implements BoardService {
 		return dao.boardInsert(dto);
 	}
 
-	@Override
-	public BoardDto getViewModify(String b_no) throws Exception {
-		return dao.getView(b_no);
-	}
-
+	//게시글 수정
 	@Override
 	public int boardUpdate(BoardDto dto) throws Exception {
 		return dao.boardUpdate(dto);
 	}
 
+	//게시글 삭제
 	@Override
 	public int boardDelete(String b_no) throws Exception {
 		return dao.boardDelete(b_no);

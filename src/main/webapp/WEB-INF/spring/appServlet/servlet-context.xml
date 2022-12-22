@@ -21,6 +21,8 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- JDBC -->
 	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	        <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property>
 	        <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></beans:property>
@@ -28,6 +30,7 @@
 	        <beans:property name="password" value="1103"></beans:property>
 	</beans:bean> 
 
+	<!-- MyBatis SqlSession -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
 		<beans:property name="mapperLocations" value="classpath:mapper/**/*.xml"></beans:property>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,7 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Spring 게시판 만들기</title>
+    
+    <!-- 메세지가 있으면 alert실행 -->
+    <c:if test="${not empty msg}">
+	    <script>
+	    	alert('${msg}');
+	    </script>
+    </c:if>
+    
     <script type="text/javascript">
+    	//유효성 검사
     	function checkForm(){
     		if(write.title.value==''){
     			alert('제목을 입력해주세요.');
@@ -32,7 +42,7 @@
 	            <div>
 	                <p>제목</p>
 	                <input type="text" name="title">
-	                <input type="hidden" name="reg_id" value="admin">
+         	        <input type="hidden" name="reg_id" value="${sessionId}">
 	            </div>
 	            <div>
 	                <p>내용</p>
