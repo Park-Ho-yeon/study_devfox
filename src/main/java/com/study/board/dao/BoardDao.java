@@ -44,6 +44,9 @@ public interface BoardDao {
 	public int commentInsert(BoardDto dto) throws Exception;
 
 	//댓글 목록
-	public List<BoardDto> getCommentList(String b_no);
+	public List<BoardDto> getCommentList(String b_no) throws Exception;
+
+	//댓글 삭제
+	public int commentDelete(String c_no) throws Exception;
 
 }

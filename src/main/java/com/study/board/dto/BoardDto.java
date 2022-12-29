@@ -1,7 +1,7 @@
 package com.study.board.dto;
 
 public class BoardDto {
-	private String b_no, title, content, reg_id, reg_date, hit, c_no, comments, reg_time;
+	private String b_no, title, content, reg_id, reg_date, hit, c_no, comments, reg_time, comment_count;
 
 	public BoardDto() {
 		super();
@@ -77,5 +77,13 @@ public class BoardDto {
 
 	public void setReg_time(String reg_time) {
 		this.reg_time = reg_time;
+	}
+
+	public String getComment_count() {
+		return comment_count;
+	}
+
+	public void setComment_count(String comment_count) {
+		this.comment_count = comment_count;
 	}
 }

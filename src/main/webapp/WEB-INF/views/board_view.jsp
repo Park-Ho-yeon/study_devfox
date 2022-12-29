@@ -39,6 +39,14 @@
     			return true;
     		}
     	}
+    	
+    	//댓글 삭제
+    	function deleteComment(c_no){
+    		var b_no = "${dto.getB_no()}";
+    		if(confirm('댓글을 삭제하시겠습니까?')){
+    			location.href="deleteComment?c_no="+c_no+"&b_no="+b_no;
+    		}
+    	}
     </script>
  
     <!-- 메세지가 있으면 alert실행 -->
@@ -96,7 +104,13 @@
                 <ul>
                 <c:forEach var="dto" items="${c_list}">
                     <li>
-                        <p>${dto.getComments()}</p>
+                        <p>
+                        	${dto.getComments()}
+                        	<!-- 댓글 삭제버튼 작성자 본인에게만 보이게 -->
+                        	<c:if test="${sessionId eq dto.getReg_id()}">
+                        		<button class="btn_del" onclick="deleteComment('${dto.getC_no()}')">삭제</button>
+                        	</c:if>
+                        </p>
                         <p>${dto.getReg_id()}<span>|</span>${dto.getReg_time()}</p>
                     </li>
                 </c:forEach>

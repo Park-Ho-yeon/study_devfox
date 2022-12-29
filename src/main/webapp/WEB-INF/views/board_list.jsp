@@ -66,7 +66,13 @@
                 <c:forEach items="${list}" var="dto">
 		            <tr>
 		                <td>${seq}<c:set var="seq" value="${seq-1}"/></td>
-		                <td class="td_left"><a href="view?b_no=${dto.getB_no()}">${dto.getTitle()}</a></td>
+		                <td class="td_left">
+		                	<a href="view?b_no=${dto.getB_no()}">${dto.getTitle()}</a>
+		                	<!-- 댓글 개수 표시 / 없으면 표시안함 -->
+		                	<c:if test="${dto.getComment_count() ne '0'}">
+			                	<span>[${dto.getComment_count()}]</span>
+		                	</c:if>
+		                </td>
 		                <td>${dto.getHit()}</td>
 		                <td>${dto.getReg_id()}</td>
 		                <td>${dto.getReg_date()}</td>

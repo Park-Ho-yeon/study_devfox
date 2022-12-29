@@ -33,7 +33,7 @@ public class BoardDaoImpl implements BoardDao {
 		return sql.insert("regist",map);
 	}
 	
-	//게시글 등록
+	//게시글 목록
 	@Override
 	public List<BoardDto> getList(HashMap<String, Object> map) throws Exception {
 		return sql.selectList("getList",map);
@@ -92,6 +92,12 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public List<BoardDto> getCommentList(String b_no) {
 		return sql.selectList("commentList",b_no);
+	}
+
+	//댓글 삭제
+	@Override
+	public int commentDelete(String c_no) throws Exception {
+		return sql.delete("commentDelete",c_no);
 	}
 
 }

@@ -107,4 +107,10 @@ public class BoardServiceImpl implements BoardService {
 		return c_list;
 	}
 
+	//댓글 삭제
+	@Override
+	public int commentDelete(String c_no) throws Exception {
+		return dao.commentDelete(c_no);
+	}
+
 }

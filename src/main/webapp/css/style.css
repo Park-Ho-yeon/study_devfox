@@ -58,6 +58,11 @@ table a:hover{
 .td_left{
     text-align: left;
 }
+.td_left span{
+	margin-left: 3px;
+	color: purple;
+	letter-spacing: 1px;
+}
 .paging_wrap{
     margin-top: 20px;
 }
@@ -145,6 +150,7 @@ button.btn{
     cursor: pointer;
     margin: 0 3px;
 }
+
 /*----COMMENTS----*/
 .comment_wrap{
     text-align: left;
@@ -195,6 +201,16 @@ button.btn{
 	font-size: 0.8em;
 	color:gray;
 	border:none;
+}
+.btn_del{
+	margin-left: 5px;
+	background-color: gray;
+	color:white;
+	font-weight: 600;
+	border:none;
+	border-radius: 2px;
+	padding: 2px 5px;
+	cursor: pointer;
 }
 /*-----SIGN UP-----*/
 .join_box{

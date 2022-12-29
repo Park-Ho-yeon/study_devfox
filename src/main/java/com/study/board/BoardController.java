@@ -3,6 +3,7 @@ package com.study.board;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -135,8 +136,10 @@ public class BoardController {
 	//게시글 상세보기
 	@RequestMapping("/view")
 	public String view(String b_no, HttpServletRequest request) throws Exception  {
-		request.setAttribute("dto", service.getView(b_no,"view")); /*조회용인지 수정용인지 구분짓기위해  "view"도 같이 넘겨준다*/
-		request.setAttribute("c_list", service.getCommentList(b_no));
+		request.setAttribute("dto", service.getView(b_no,"view")); //조회용인지 수정용인지 구분짓기위해  "view"도 같이 넘겨준다
+		
+		request.setAttribute("c_list", service.getCommentList(b_no)); //댓글 목록
+		
 		return "board_view";
 	}
 	
@@ -217,4 +220,14 @@ public class BoardController {
 		}
 		return "redirect:view?b_no="+dto.getB_no();
 	}
+	
+	//댓글 삭제
+	@RequestMapping("deleteComment")
+	public String deleteComment(String c_no, String b_no) throws Exception{
+		int result = service.commentDelete(c_no);
+		if(result!=1) System.out.println("댓글 삭제 오류");
+		
+		return "redirect:view?b_no="+b_no;
+	}
+	
 }
