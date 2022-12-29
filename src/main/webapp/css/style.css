@@ -145,7 +145,57 @@ button.btn{
     cursor: pointer;
     margin: 0 3px;
 }
-
+/*----COMMENTS----*/
+.comment_wrap{
+    text-align: left;
+}
+.comment_wrap .input_box{
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+.comment_wrap input{
+    width: 420px;
+    height: 30px;
+    padding: 3px;
+    border-radius: 7px;
+    border: 1px solid #333;
+}
+.comment_wrap input:focus{
+    outline: none;
+}
+.comment_wrap .input_box button{
+    width: 100px;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+.comment_wrap ul{
+    list-style: none;
+}
+.comment_wrap ul li{
+    padding: 10px;
+    border-bottom: 1px solid #b4b4b4;
+}
+.comment_wrap ul li p:first-child{
+    font-weight: 600;
+}
+.comment_wrap ul li p:last-child{
+    color: gray;
+    margin-top: 5px;
+    font-size: 12px;
+}
+.comment_wrap ul li p:last-child span{
+    margin: 0 10px;
+}
+.comment_wrap ul li.noComments{
+	text-align: center;
+	font-size: 0.8em;
+	color:gray;
+	border:none;
+}
 /*-----SIGN UP-----*/
 .join_box{
     width: 400px;

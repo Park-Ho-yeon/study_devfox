@@ -17,8 +17,8 @@ public interface BoardService {
 	public int userReg(HashMap<String, Object> map) throws Exception;
 	
 	//게시글 목록
-	public List<BoardDto> getList() throws Exception;
-
+	public List<BoardDto> getList(int start, int end) throws Exception;
+	
 	//게시글 상세보기
 	public BoardDto getView(String b_no, String vm) throws Exception;
 
@@ -31,5 +31,14 @@ public interface BoardService {
 	//게시글 삭제
 	public int boardDelete(String b_no) throws Exception;
 
+	//페이징 처리
+	public int totalCount() throws Exception;
+
+	//댓글 등록
+	public int commentInsert(BoardDto dto) throws Exception;
+	
+	//댓글 목록
+	public List<BoardDto> getCommentList(String b_no) throws Exception;
+	
 	
 }

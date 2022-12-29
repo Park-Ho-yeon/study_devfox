@@ -17,10 +17,10 @@ public interface BoardDao {
 	public int userReg(HashMap<String, Object> map) throws Exception;
 	
 	//게시글 목록
-	public List<BoardDto> getList() throws Exception;
+	public List<BoardDto> getList(HashMap<String, Object> map) throws Exception;
 
 	//게시글 번호 자동생성
-	public String getAutoNo() throws Exception;
+	public String getAutoNo(HashMap<String, Object> map) throws Exception;
 
 	//게시글 등록
 	public int boardInsert(BoardDto dto) throws Exception;
@@ -36,5 +36,14 @@ public interface BoardDao {
 	
 	//게시글 삭제
 	public int boardDelete(String b_no) throws Exception;
+
+	//페이징 처리
+	public int totalCount() throws Exception;
+
+	//댓글 등록
+	public int commentInsert(BoardDto dto) throws Exception;
+
+	//댓글 목록
+	public List<BoardDto> getCommentList(String b_no);
 
 }

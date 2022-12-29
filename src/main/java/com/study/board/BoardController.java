@@ -102,8 +102,33 @@ public class BoardController {
 	//게시판 목록
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request) throws Exception {
-		List<BoardDto> list = service.getList();
+		//페이징 처리
+		int listCount = 5; //한 페이지당 보여줄 글 갯수
+		int totalCount = 0; //총 게시글 수
+		int totalPage = 1; //페이지 수 초기값
+		int pageNum = 1; //현재 페이지 초기값
+		
+		String pageNumS = request.getParameter("page"); //페이지 번호 클릭했을때
+		if(pageNumS!=null) pageNum = Integer.parseInt(pageNumS);
+		
+		totalCount = service.totalCount();
+		totalPage = totalCount/listCount;
+		if(totalCount % listCount != 0) {
+			totalPage++; //나머지 페이지가 있을 경우 페이지 수 +1
+		} 
+		
+		int start = (pageNum -1) * listCount + 1; //시작번호
+		int end   = pageNum * listCount; //끝번호
+		
+		int seq = totalCount-(start-1); //게시판 표시용 번호
+		
+		List<BoardDto> list = service.getList(start,end);
+		
 		request.setAttribute("list", list);
+		request.setAttribute("totalPage", totalPage); //총 페이지 수
+		request.setAttribute("pageNum", pageNum); //현재 페이지
+		request.setAttribute("seq", seq);
+		
 		return "board_list";
 	}
 	
@@ -111,6 +136,7 @@ public class BoardController {
 	@RequestMapping("/view")
 	public String view(String b_no, HttpServletRequest request) throws Exception  {
 		request.setAttribute("dto", service.getView(b_no,"view")); /*조회용인지 수정용인지 구분짓기위해  "view"도 같이 넘겨준다*/
+		request.setAttribute("c_list", service.getCommentList(b_no));
 		return "board_view";
 	}
 	
@@ -122,7 +148,11 @@ public class BoardController {
 	
 	//게시글 DB등록
 	@RequestMapping("/DBinsert")
-	public String insert(BoardDto dto, RedirectAttributes redirect) throws Exception {
+	public String insert(BoardDto dto, HttpServletRequest request, RedirectAttributes redirect) throws Exception {
+		HttpSession session = request.getSession();
+		String sessionId = (String)session.getAttribute("sessionId");
+		dto.setReg_id(sessionId);//작성자 아이디 dto에 set
+		
 		int result = service.boardInsert(dto);
 		if(result!=0) {
 			/*등록 성공하면 목록으로*/
@@ -172,4 +202,19 @@ public class BoardController {
 		}
 	}
 
+	//댓글 DB등록
+	@RequestMapping("insertComment")
+	public String insertComment(BoardDto dto, HttpServletRequest request, RedirectAttributes redirect) throws Exception{
+		HttpSession session = request.getSession();
+		String sessionId = (String)session.getAttribute("sessionId");
+		dto.setReg_id(sessionId);//작성자 아이디 dto에 set
+		
+		int result = service.commentInsert(dto);
+		if(result!=0) {
+			redirect.addFlashAttribute("msg","댓글이 등록되었습니다.");
+		}else{
+			redirect.addFlashAttribute("msg","댓글 등록에 오류가 발생하였습니다.");			
+		}
+		return "redirect:view?b_no="+dto.getB_no();
+	}
 }

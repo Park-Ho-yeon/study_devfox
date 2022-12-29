@@ -35,8 +35,8 @@ public class BoardDaoImpl implements BoardDao {
 	
 	//게시글 등록
 	@Override
-	public List<BoardDto> getList() throws Exception {
-		return sql.selectList("getList");
+	public List<BoardDto> getList(HashMap<String, Object> map) throws Exception {
+		return sql.selectList("getList",map);
 	}
 
 	//게시글 상세조회
@@ -54,8 +54,8 @@ public class BoardDaoImpl implements BoardDao {
 
 	//게시글 자동번호 생성
 	@Override
-	public String getAutoNo() throws Exception {
-		return sql.selectOne("getAutoNo");
+	public String getAutoNo(HashMap<String, Object> map) throws Exception {
+		return sql.selectOne("getAutoNo",map);
 	}
 
 	//게시글 등록
@@ -74,6 +74,24 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int boardDelete(String b_no) throws Exception {
 		return sql.delete("boardDelete",b_no);
+	}
+
+	//페이징 처리
+	@Override
+	public int totalCount() throws Exception {
+		return sql.selectOne("totalcount");
+	}
+
+	//댓글 등록
+	@Override
+	public int commentInsert(BoardDto dto) throws Exception {
+		return sql.insert("commentInsert",dto);
+	}
+
+	//댓글 목록
+	@Override
+	public List<BoardDto> getCommentList(String b_no) {
+		return sql.selectList("commentList",b_no);
 	}
 
 }

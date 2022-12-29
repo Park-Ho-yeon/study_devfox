@@ -19,8 +19,16 @@
 
 	<!-- 게시글 목록 -->
 	<select id="getList" resultType="com.study.board.dto.BoardDto">
-		select b_no, title, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
-		order by b_no desc
+		select * from
+		(select tbl.* from
+		(select rownum rnum, b_no, title, reg_id, to_char(reg_date,'yyyy-MM-dd')reg_date, hit from study_tbl_board
+		order by b_no desc)tbl)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<!-- 페이징 총 게시글 수 -->
+	<select id="totalcount" resultType="Integer">
+		select count(*) from study_tbl_board
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -37,7 +45,7 @@
 
 	<!-- 게시글 번호 자동생성 -->
 	<select id="getAutoNo" resultType="String">
-		select concat('B',to_char(REGEXP_REPLACE(max(b_no),'[^0-9]')+1,'FM000'))as b_no from study_tbl_board
+		select concat(#{i},to_char(REGEXP_REPLACE(nvl(max(${col}),'0'),'[^0-9]')+1,'FM000'))as ${col} from ${tbl}
 	</select>
 		
 	<!-- 게시글 등록 -->
@@ -58,4 +66,18 @@
 	<delete id="boardDelete">
 		delete from study_tbl_board where b_no = #{b_no}
 	</delete>
+	
+	<!-- 댓글 등록 -->
+	<insert id="commentInsert">
+		insert into study_tbl_comment
+		(c_no, b_no, comments, reg_id, reg_time)
+		values (#{c_no},#{b_no},#{comments},#{reg_id},sysdate)
+	</insert>
+	
+	<!-- 댓글 목록 -->
+	<select id="commentList" resultType="com.study.board.dto.BoardDto">
+		select c_no, comments, reg_id, to_char(reg_time,'yyyy-MM-dd hh:mi:ss')reg_time
+		from study_tbl_comment
+		where b_no = #{b_no}
+	</select>
 </mapper>

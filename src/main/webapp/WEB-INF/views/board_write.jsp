@@ -42,7 +42,6 @@
 	            <div>
 	                <p>제목</p>
 	                <input type="text" name="title">
-         	        <input type="hidden" name="reg_id" value="${sessionId}">
 	            </div>
 	            <div>
 	                <p>내용</p>

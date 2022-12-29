@@ -1,7 +1,7 @@
 package com.study.board.dto;
 
 public class BoardDto {
-	private String b_no, title, content, reg_id, reg_date, hit;
+	private String b_no, title, content, reg_id, reg_date, hit, c_no, comments, reg_time;
 
 	public BoardDto() {
 		super();
@@ -53,5 +53,29 @@ public class BoardDto {
 
 	public void setHit(String hit) {
 		this.hit = hit;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public String getC_no() {
+		return c_no;
+	}
+
+	public void setC_no(String c_no) {
+		this.c_no = c_no;
+	}
+
+	public String getReg_time() {
+		return reg_time;
+	}
+
+	public void setReg_time(String reg_time) {
+		this.reg_time = reg_time;
 	}
 }

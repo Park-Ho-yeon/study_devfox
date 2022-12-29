@@ -62,9 +62,10 @@
                     <th>작성자</th>
                     <th>등록날짜</th>
                 </tr>
+                <c:set var="listNo" value="${t_order}"/>
                 <c:forEach items="${list}" var="dto">
 		            <tr>
-		                <td>${dto.getB_no()}</td>
+		                <td>${seq}<c:set var="seq" value="${seq-1}"/></td>
 		                <td class="td_left"><a href="view?b_no=${dto.getB_no()}">${dto.getTitle()}</a></td>
 		                <td>${dto.getHit()}</td>
 		                <td>${dto.getReg_id()}</td>
@@ -73,12 +74,11 @@
 	            </c:forEach>
             </table>
         </div>
+        <!-- 페이징 버튼 -->
         <div class="paging_wrap">
-            <a href="" class="on">1</a>
-            <a href="">2</a>
-            <a href="">3</a>
-            <a href="">4</a>
-            <a href="">5</a>
+        <c:forEach var="i" begin="1" end="${totalPage}">
+            <a href="list?page=${i}" <c:if test="${i eq pageNum}">class="on"</c:if>>${i}</a>
+        </c:forEach>
         </div>
         <button class="btn btn_write" onclick="loginCheck()">글쓰기</button>
     </div>
