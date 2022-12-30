@@ -46,16 +46,20 @@ public class BoardServiceImpl implements BoardService {
 	//게시글 상세보기
 	@Override
 	public BoardDto getView(String b_no, String vm) throws Exception {
-
-		if(vm.equals("view")) dao.setHitcount(b_no); //상세조회용이면 조회수 1 증가
 		BoardDto dto = dao.getView(b_no);
-		if(vm.equals("view")) dto.setContent(dto.getContent().replace("\r\n", "<br>"));			
-		//상세조회용이면 <p>태그안에 들어가기에 줄바꿈 코드 <br>로 변환
 
+		//상세조회용이면 <p>태그안에 들어가기에 줄바꿈 코드 <br>로 변환
+		if(vm.equals("view")) dto.setContent(dto.getContent().replace("\r\n", "<br>"));			
 		
 		return dto;
 	}
 
+	//게시글 조회수 증가
+	@Override
+	public void setHitcount(String b_no) throws Exception {
+		dao.setHitcount(b_no);
+	}
+	
 	//게시글 등록
 	@Override
 	public int boardInsert(BoardDto dto) throws Exception {
@@ -112,5 +116,7 @@ public class BoardServiceImpl implements BoardService {
 	public int commentDelete(String c_no) throws Exception {
 		return dao.commentDelete(c_no);
 	}
+
+	
 
 }

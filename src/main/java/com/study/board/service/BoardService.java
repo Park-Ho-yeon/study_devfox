@@ -22,6 +22,9 @@ public interface BoardService {
 	//게시글 상세보기
 	public BoardDto getView(String b_no, String vm) throws Exception;
 
+	//게시글 조회수 증가
+	public void setHitcount(String b_no) throws Exception;
+	
 	//게시글 등록
 	public int boardInsert(BoardDto dto) throws Exception;
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +136,40 @@ public class BoardController {
 	
 	//게시글 상세보기
 	@RequestMapping("/view")
-	public String view(String b_no, HttpServletRequest request) throws Exception  {
-		request.setAttribute("dto", service.getView(b_no,"view")); //조회용인지 수정용인지 구분짓기위해  "view"도 같이 넘겨준다
+	public String view(String b_no, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+		/* -- 조회수 중복방지 --*/
+		Cookie oldCookie = null; //oldCookie 객체 선언 후 null로 초기화
+		Cookie[] cookies = request.getCookies(); // Cookie타입을 요소로 가지는 리스트
 		
+		//기존 생성된 쿠키가 있고 이름이 boardView인지 확인
+		if(cookies!=null) {
+			for(Cookie cookie : cookies) {
+				if(cookie.getName().equals("boardView")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+
+		if(oldCookie!=null) {
+			//기존 생성된 쿠키가 있을때
+			//기존 쿠키에 현재 게시글 번호가 없다면
+			if(!oldCookie.getValue().contains(b_no)) { 
+				service.setHitcount(b_no); //조회수 +1
+				oldCookie.setValue(oldCookie.getValue()+"_"+b_no); //기존 쿠키에 현재 게시글 번호 추가
+				oldCookie.setPath("/"); //모든URL범위에서 쿠키 전송가능
+				oldCookie.setMaxAge(60*60*24); //쿠키 유지시간 60s*60m*24 = 24h
+				response.addCookie(oldCookie); //쿠키 전송
+			}
+		}else{
+			//기존 생성된 쿠키가 없을때 새로운 쿠키 생성
+			service.setHitcount(b_no);
+			Cookie newCookie = new Cookie("boardView",b_no);
+			newCookie.setPath("/");
+			newCookie.setMaxAge(60*60*24);
+			response.addCookie(newCookie);
+		}
+		
+		request.setAttribute("dto", service.getView(b_no,"view")); //조회용인지 수정용인지 구분짓기위해  "view"도 같이 넘겨준다
 		request.setAttribute("c_list", service.getCommentList(b_no)); //댓글 목록
 		
 		return "board_view";
